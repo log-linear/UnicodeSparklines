@@ -1,0 +1,11 @@
+Package: UnicodeSparklines
+Type: Package
+Title: What the package does (short line)
+Version: 1.0
+Date: 2021-08-01
+Author: Victor Faner
+Maintainer: victor@faner.co
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
+Encoding: UTF-8
+RoxygenNote: 7.1.1
