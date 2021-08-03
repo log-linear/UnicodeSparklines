@@ -33,14 +33,14 @@ sparkline <- function(numbers, chars = c("bars", "lines", "area")) {
   mx <- max(numbers)
   interval <- mx - mn
 
-  buckets <- sapply(
+  bins <- sapply(
     numbers,
     function(i) {
       chars[[1 + min(n_chars - 1,
                      floor((i - mn) / interval * n_chars))]]
     }
   )
-  sparkline <- paste0(buckets, collapse = "")
+  sparkline <- paste0(bins, collapse = "")
 
   return(sparkline)
 }
@@ -61,17 +61,17 @@ sparkline_area <- function(numbers) {
   interval <- mx - mn
 
   # dists
-  buckets <- sapply(
+  bins <- sapply(
     numbers,
     function(i) 1 + min(n_lvls - 1, floor((i - mn) / interval * n_lvls))
   )
 
-  dists <- diff(buckets)
+  dists <- diff(bins)
   n_chars <- length(dists)
   sparkline <- character(n_chars)
 
   for (i in seq_along(dists)) {
-    row <- ifelse(i == 1, 1, col)
+    row <- ifelse(i == 1, bins[[i]], col)
     col <- row + dists[[i]]
 
     sparkline[i] = chars[row, col]
