@@ -1,3 +1,4 @@
+# List of sparkline character sets
 .chars <- list(
   bars = intToUtf8(seq(0x2581, 0x2588), multiple = T),
   lines = c(
@@ -23,10 +24,10 @@
 #' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
 #' sparkline(test1)
 #' sparkline(test2)
-sparkline <- function(numbers, chars = c("bars", "lines", "area")) {
-  chars <- match.arg(chars)
-  if (chars == "area") return(sparkline_area(numbers))
-  chars <- .chars[[chars]]
+sparkline <- function(numbers, chart = c("bars", "lines", "area")) {
+  chart <- match.arg(chart)
+  if (chart == "area") return(sparkline_area(numbers))
+  chars <- .chars[[chart]]
 
   n_chars <- length(chars)
   mn <- min(numbers)
@@ -45,14 +46,39 @@ sparkline <- function(numbers, chars = c("bars", "lines", "area")) {
   return(sparkline)
 }
 
-sparkline_bars <- function(numbers) {
-  return(sparkline(numbers, "bars"))
-}
+#' Generate a sparkline bar chart from a vector of numbers. This merely calls
+#' on the \code{sparkline()} function with the \code{chars} arg set to "bars".
+#'
+#' @param numbers Vector of numbers.
+#' @return Sparkline plot as a character vector of length 1
+#' @examples
+#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
+#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
+#' sparkline_bar(test1)
+#' sparkline_bar(test2)
+sparkline_bars <- function(numbers) return(sparkline(numbers, "bars"))
 
-sparkline_lines <- function(numbers) {
-  return(sparkline(numbers, "lines"))
-}
+#' Generate a sparkline bar chart from a vector of numbers. This merely calls
+#' on the \code{sparkline()} function with the \code{chars} arg set to "lines".
+#'
+#' @param numbers Vector of numbers.
+#' @return Sparkline plot as a character vector of length 1
+#' @examples
+#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
+#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
+#' sparkline(test1)
+#' sparkline(test2)
+sparkline_lines <- function(numbers)  return(sparkline(numbers, "lines"))
 
+#' Generate a sparkline area chart from a vector of numbers
+#'
+#' @param numbers Vector of numbers.
+#' @return Sparkline plot as a character vector of length 1
+#' @examples
+#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
+#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
+#' sparkline(test1)
+#' sparkline(test2)
 sparkline_area <- function(numbers) {
   chars <- .chars$area
   n_lvls <- 4
@@ -60,7 +86,6 @@ sparkline_area <- function(numbers) {
   mx <- max(numbers)
   interval <- mx - mn
 
-  # dists
   bins <- sapply(
     numbers,
     function(i) 1 + min(n_lvls - 1, floor((i - mn) / interval * n_lvls))

@@ -1,11 +1,14 @@
 Package: UnicodeSparklines
-Type: Package
-Title: What the package does (short line)
-Version: 1.0
-Date: 2021-08-01
-Author: Victor Faner
-Maintainer: victor@faner.co
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Title: Generate unicode sparkline plots in R.
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Victor",
+           family = "Faner",
+           role = c("aut", "cre"),
+           email = "victor@faner.co")
+Description: Generate unicode sparkline plots in R.
+License: GPL (>= 3)
 Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

@@ -1,3 +1,10 @@
-# UnicodeSparkliners
 
-Generate unicode sparkline plots in R.
+# UnicodeSparklines
+
+Generate unicode sparkline plots in R. ▁▂▃▄▅▆▇█▇▆▅▄▃▂▁
+
+# Installation
+
+``` r
+remotes::install_github("log-linear/UnicodeSparklines")
+```
