@@ -2,21 +2,42 @@
 % Please edit documentation in R/plotters.R
 \name{sparkline}
 \alias{sparkline}
-\title{Generate a sparkline from a vector of numbers}
+\alias{sparkline_bar}
+\alias{sparkline_line}
+\alias{sparkline_tally}
+\alias{sparkline_shade}
+\alias{sparkline_area}
+\alias{sparkline_dot}
+\title{Generate a sparkline from a vector of numbers.}
 \usage{
-sparkline(numbers, chart = c("bars", "lines", "area"))
+sparkline(numbers, chart = c("bar", "line", "shade", "tally", "dot", "area"))
+
+sparkline_bar(numbers)
+
+sparkline_line(numbers)
+
+sparkline_tally(numbers)
+
+sparkline_shade(numbers)
+
+sparkline_area(numbers)
+
+sparkline_dot(numbers)
 }
 \arguments{
 \item{numbers}{Vector of numbers.}
 
-\item{chars}{Symbols used to create sparkline. Either \code{'lines'} or
-\code{'bars'}.}
+\item{chart}{Symbols used to create sparkline. One of \code{bar}, \code{tally}, \code{line},
+\code{shade}, \code{dot}, or \code{area}}
 }
 \value{
 Sparkline plot as a character vector of length 1
 }
 \description{
-Generate a sparkline from a vector of numbers
+Generate a sparkline from a vector of numbers. \code{sparkline_bars()},
+\code{sparkline_line()}, \code{sparkline_tally()} \code{sparkline_shade()} and
+\code{sparkline_area()} are convenient wrappers for the base \code{sparkline()}
+function.
 }
 \examples{
 test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)

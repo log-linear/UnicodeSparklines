@@ -6,130 +6,90 @@
     paste0(intToUtf8(c(0x005f, 0x005f), multiple = T), collapse = ""),
     intToUtf8(c(seq(0x1fb7b, 0x1fb76), 0x23ba), multiple = T)
   ),
-  # shade = intToUtf8(c(0x1f78e, 0x1f7e8, 0x1f7e6, 0x1f7eb, 0x1f7e7), multiple = T),
+  dot = rbind(
+    intToUtf8(c(0x28c0, 0x2860, 0x2850, 0x2848), multiple = T),
+    intToUtf8(c(0x2884, 0x2824, 0x2814, 0x280c), multiple = T),
+    intToUtf8(c(0x2882, 0x2822, 0x2812, 0x280a), multiple = T),
+    intToUtf8(c(0x2881, 0x2821, 0x2811, 0x2809), multiple = T)
+  ),
   shade = intToUtf8(c(0x2581, 0x2591, 0x2592, 0x2593, 0x2588), multiple = T),
   area = rbind(
-    intToUtf8(c(0xfe2d, 0x1fb48, 0x1fb4a, 0x1fb4b), multiple = T),   # c("︭", "🭈", "🭊", "🭋"),
+    intToUtf8(c(0xfe2d, 0x1fb48, 0x1fb4a, 0x1fb4b), multiple = T),   # ("︭", "🭈", "🭊", "🭋"),
     intToUtf8(c(0x1fb3d, 0x1fb2d, 0x1fb46, 0x1fb44), multiple = T),  # c("🬽", "🬭", "🭆", "🭄"),
     intToUtf8(c(0x1fb3f, 0x1fb51, 0x1fb39, 0x1fb42), multiple = T),  # c("🬿", "🭑", "🬹", "🭂"),
     intToUtf8(c(0x1fb40, 0x1fb4f, 0x1fb4d, 0x1fb8b), multiple = T)   # c("🭀", "🭏", "🭍", "🮋")
   )
 )
 
-#' Generate a sparkline from a vector of numbers
+#' Generate a sparkline from a vector of numbers.
+#'
+#' Generate a sparkline from a vector of numbers. `sparkline_bars()`,
+#' `sparkline_line()`, `sparkline_tally()` `sparkline_shade()` and
+#' `sparkline_area()` are convenient wrappers for the base `sparkline()`
+#' function.
 #'
 #' @param numbers Vector of numbers.
-#' @param chars Symbols used to create sparkline. Either \code{'lines'} or
-#'   \code{'bars'}.
+#' @param chart Symbols used to create sparkline. One of `bar`, `tally`, `line`,
+#' `shade`, `dot`, or `area`
 #' @return Sparkline plot as a character vector of length 1
 #' @examples
 #' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
 #' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
 #' sparkline(test1)
 #' sparkline(test2)
-sparkline <- function(numbers,
-                      chart = c("bar", "line", "shade", "tally", "area")) {
+sparkline <- function(numbers, chart = c("bar", "line", "shade", "tally", "dot",
+                                         "area")) {
   chart <- match.arg(chart)
-  if (chart == "area") return(sparkline_area(numbers))
   chars <- .chars[[chart]]
 
-  n_chars <- length(chars)
+  n_chars <- ifelse(chart == "area" | chart == "dot", 4, length(chars))
   mn <- min(numbers)
   mx <- max(numbers)
   interval <- mx - mn
 
   bins <- sapply(
     numbers,
-    function(i) {
-      chars[[1 + min(n_chars - 1,
-                     floor((i - mn) / interval * n_chars))]]
-    }
+    function(i) 1 + min(n_chars - 1, floor((i - mn) / interval * n_chars))
   )
-  sparkline <- paste0(bins, collapse = "")
+
+  if (chart == "area" | chart == "dot") {
+    dists <- diff(bins)
+    n_chars <- length(dists)
+    area_bins <- character(n_chars)
+
+    for (i in seq_along(dists)) {
+      row <- ifelse(i == 1, bins[[i]], col)
+      col <- row + dists[[i]]
+
+      area_bins[i] = chars[row, col]
+    }
+
+    sparkline <- paste0(area_bins, collapse = "")
+  }
+  else sparkline <- paste0(chars[bins], collapse = "")
 
   return(sparkline)
 }
 
-#' Generate a sparkline bar chart from a vector of numbers. This merely calls
-#' the \code{sparkline()} function with the \code{chart} arg set to "bars".
-#'
-#' @param numbers Vector of numbers.
-#' @return Sparkline plot as a character vector of length 1
-#' @examples
-#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
-#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
-#' sparkline_bar(test1)
-#' sparkline_bar(test2)
+#' @rdname sparkline
+#' @export
 sparkline_bar <- function(numbers) return(sparkline(numbers, chart = "bar"))
 
-#' Generate a sparkline bar chart from a vector of numbers. This merely calls
-#' the \code{sparkline()} function with the \code{chart} arg set to "lines".
-#'
-#' @param numbers Vector of numbers.
-#' @return Sparkline plot as a character vector of length 1
-#' @examples
-#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
-#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
-#' sparkline_line(test1)
-#' sparkline_line(test2)
+#' @rdname sparkline
+#' @export
 sparkline_line <- function(numbers)  return(sparkline(numbers, chart = "line"))
 
-#' Generate a sparkline tally chart from a vector of numbers. This merely calls
-#' the \code{sparkline()} function with the \code{chart} arg set to "tally".
-#'
-#' @param numbers Vector of numbers.
-#' @return Sparkline plot as a character vector of length 1
-#' @examples
-#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
-#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
-#' sparkline_tally(test1)
-#' sparkline_tally(test2)
+#' @rdname sparkline
 sparkline_tally <- function(numbers) return(sparkline(numbers, chart = "tally"))
 
-#' Generate a sparkline shade chart from a vector of numbers. This merely calls
-#' the \code{sparkline()} function with the \code{chart} arg set to "shade".
-#'
-#' @param numbers Vector of numbers.
-#' @return Sparkline plot as a character vector of length 1
-#' @examples
-#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
-#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
-#' sparkline_shade(test1)
-#' sparkline_shade(test2)
+#' @rdname sparkline
+#' @export
 sparkline_shade <- function(numbers) return(sparkline(numbers, chart = "shade"))
 
-#' Generate a sparkline area chart from a vector of numbers
-#'
-#' @param numbers Vector of numbers.
-#' @return Sparkline plot as a character vector of length 1
-#' @examples
-#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
-#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
-#' sparkline_area(test1)
-#' sparkline_area(test2)
-sparkline_area <- function(numbers) {
-  chars <- .chars$area
-  n_lvls <- 4
-  mn <- min(numbers)
-  mx <- max(numbers)
-  interval <- mx - mn
+#' @rdname sparkline
+#' @export
+sparkline_area <- function(numbers) return(sparkline(numbers, chart = "area"))
 
-  bins <- sapply(
-    numbers,
-    function(i) 1 + min(n_lvls - 1, floor((i - mn) / interval * n_lvls))
-  )
-
-  dists <- diff(bins)
-  n_chars <- length(dists)
-  sparkline <- character(n_chars)
-
-  for (i in seq_along(dists)) {
-    row <- ifelse(i == 1, bins[[i]], col)
-    col <- row + dists[[i]]
-
-    sparkline[i] = chars[row, col]
-  }
-  sparkline <- paste0(sparkline, collapse = "")
-
-  return(sparkline)
-}
+#' @rdname sparkline
+#' @export
+sparkline_dot <- function(numbers) return(sparkline(numbers, chart = "dot"))
