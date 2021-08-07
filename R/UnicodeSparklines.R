@@ -38,6 +38,7 @@
 #' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
 #' sparkline(test1)
 #' sparkline(test2)
+#' @export
 sparkline <- function(numbers, chart = c("bar", "line", "shade", "tally", "dot",
                                          "area")) {
   chart <- match.arg(chart)
