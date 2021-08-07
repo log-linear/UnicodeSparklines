@@ -81,6 +81,7 @@ sparkline_bar <- function(numbers) return(sparkline(numbers, chart = "bar"))
 sparkline_line <- function(numbers)  return(sparkline(numbers, chart = "line"))
 
 #' @rdname sparkline
+#' @export
 sparkline_tally <- function(numbers) return(sparkline(numbers, chart = "tally"))
 
 #' @rdname sparkline
