@@ -1,10 +1,13 @@
-# List of sparkline character sets
+# Sparkline character sets
 .chars <- list(
-  bars = intToUtf8(seq(0x2581, 0x2588), multiple = T),
-  lines = c(
+  bar = intToUtf8(seq(0x2581, 0x2588), multiple = T),
+  tally = intToUtf8(seq(0x1d360, 0x1d364), multiple = T),
+  line = c(
     paste0(intToUtf8(c(0x005f, 0x005f), multiple = T), collapse = ""),
     intToUtf8(c(seq(0x1fb7b, 0x1fb76), 0x23ba), multiple = T)
   ),
+  # shade = intToUtf8(c(0x1f78e, 0x1f7e8, 0x1f7e6, 0x1f7eb, 0x1f7e7), multiple = T),
+  shade = intToUtf8(c(0x2581, 0x2591, 0x2592, 0x2593, 0x2588), multiple = T),
   area = rbind(
     intToUtf8(c(0xfe2d, 0x1fb48, 0x1fb4a, 0x1fb4b), multiple = T),   # c("︭", "🭈", "🭊", "🭋"),
     intToUtf8(c(0x1fb3d, 0x1fb2d, 0x1fb46, 0x1fb44), multiple = T),  # c("🬽", "🬭", "🭆", "🭄"),
@@ -24,7 +27,8 @@
 #' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
 #' sparkline(test1)
 #' sparkline(test2)
-sparkline <- function(numbers, chart = c("bars", "lines", "area")) {
+sparkline <- function(numbers,
+                      chart = c("bar", "line", "shade", "tally", "area")) {
   chart <- match.arg(chart)
   if (chart == "area") return(sparkline_area(numbers))
   chars <- .chars[[chart]]
@@ -47,7 +51,7 @@ sparkline <- function(numbers, chart = c("bars", "lines", "area")) {
 }
 
 #' Generate a sparkline bar chart from a vector of numbers. This merely calls
-#' on the \code{sparkline()} function with the \code{chars} arg set to "bars".
+#' the \code{sparkline()} function with the \code{chart} arg set to "bars".
 #'
 #' @param numbers Vector of numbers.
 #' @return Sparkline plot as a character vector of length 1
@@ -56,19 +60,43 @@ sparkline <- function(numbers, chart = c("bars", "lines", "area")) {
 #' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
 #' sparkline_bar(test1)
 #' sparkline_bar(test2)
-sparkline_bars <- function(numbers) return(sparkline(numbers, "bars"))
+sparkline_bar <- function(numbers) return(sparkline(numbers, chart = "bar"))
 
 #' Generate a sparkline bar chart from a vector of numbers. This merely calls
-#' on the \code{sparkline()} function with the \code{chars} arg set to "lines".
+#' the \code{sparkline()} function with the \code{chart} arg set to "lines".
 #'
 #' @param numbers Vector of numbers.
 #' @return Sparkline plot as a character vector of length 1
 #' @examples
 #' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
 #' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
-#' sparkline(test1)
-#' sparkline(test2)
-sparkline_lines <- function(numbers)  return(sparkline(numbers, "lines"))
+#' sparkline_line(test1)
+#' sparkline_line(test2)
+sparkline_line <- function(numbers)  return(sparkline(numbers, chart = "line"))
+
+#' Generate a sparkline tally chart from a vector of numbers. This merely calls
+#' the \code{sparkline()} function with the \code{chart} arg set to "tally".
+#'
+#' @param numbers Vector of numbers.
+#' @return Sparkline plot as a character vector of length 1
+#' @examples
+#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
+#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
+#' sparkline_tally(test1)
+#' sparkline_tally(test2)
+sparkline_tally <- function(numbers) return(sparkline(numbers, chart = "tally"))
+
+#' Generate a sparkline shade chart from a vector of numbers. This merely calls
+#' the \code{sparkline()} function with the \code{chart} arg set to "shade".
+#'
+#' @param numbers Vector of numbers.
+#' @return Sparkline plot as a character vector of length 1
+#' @examples
+#' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
+#' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
+#' sparkline_shade(test1)
+#' sparkline_shade(test2)
+sparkline_shade <- function(numbers) return(sparkline(numbers, chart = "shade"))
 
 #' Generate a sparkline area chart from a vector of numbers
 #'
@@ -77,8 +105,8 @@ sparkline_lines <- function(numbers)  return(sparkline(numbers, "lines"))
 #' @examples
 #' test1 <- c(1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1)
 #' test2 <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
-#' sparkline(test1)
-#' sparkline(test2)
+#' sparkline_area(test1)
+#' sparkline_area(test2)
 sparkline_area <- function(numbers) {
   chars <- .chars$area
   n_lvls <- 4
