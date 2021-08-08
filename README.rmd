@@ -1,0 +1,32 @@
+---
+output: github_document
+---
+
+# UnicodeSparklines
+
+Generate [sparkline](https://en.wikipedia.org/wiki/Sparkline) plots in
+R with [Unicode character symbols](https://en.wikipedia.org/wiki/Unicode).
+▁▂▃▄▅▆▇█▇▆▅▄▃▂▁
+
+Output might look weird in certain fonts, or if your terminal/IDE has wonky 
+UTF-8 output.
+
+# Installation
+
+```{r, message = F}
+remotes::install_github("log-linear/UnicodeSparklines")
+```
+
+# Usage
+
+```{r}
+library(UnicodeSparklines)
+test <- c(1.5, 0.5, 3.5, 2.5, 5.5, 4.5, 7.5, 6.5)
+sparkline(test)
+sparkline_bar(test)
+sparkline(test, chart = "line")
+sparkline_tally(test)
+sparkline_line(test)
+sparkline_area(test)
+sparkline_dot(test)
+```

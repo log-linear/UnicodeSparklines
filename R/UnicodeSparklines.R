@@ -54,21 +54,23 @@ sparkline <- function(numbers, chart = c("bar", "line", "shade", "tally", "dot",
     function(i) 1 + min(n_chars - 1, floor((i - mn) / interval * n_chars))
   )
 
+  # For area and dot charts, output chars are based on distances from bin to bin
   if (chart == "area" | chart == "dot") {
     dists <- diff(bins)
     n_chars <- length(dists)
-    area_bins <- character(n_chars)
+    dist_bins <- matrix(nrow = n_chars, ncol = 2)
 
     for (i in seq_along(dists)) {
       row <- ifelse(i == 1, bins[[i]], col)
       col <- row + dists[[i]]
 
-      area_bins[i] = chars[row, col]
+      dist_bins[i, ] <- c(row, col)
     }
 
-    sparkline <- paste0(area_bins, collapse = "")
+    sparkline <- paste0(chars[dist_bins], collapse = "")
+  } else {
+    sparkline <- paste0(chars[bins], collapse = "")
   }
-  else sparkline <- paste0(chars[bins], collapse = "")
 
   return(sparkline)
 }
