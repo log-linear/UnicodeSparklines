@@ -57,8 +57,8 @@ sparkline <- function(numbers, chart = c("bar", "line", "shade", "tally", "dot",
   # For area and dot charts, output chars are based on distances from bin to bin
   if (chart == "area" | chart == "dot") {
     dists <- diff(bins)
-    n_chars <- length(dists)
-    dist_bins <- matrix(nrow = n_chars, ncol = 2)
+    n_dists <- length(dists)
+    dist_bins <- matrix(nrow = n_dists, ncol = 2)
 
     for (i in seq_along(dists)) {
       row <- ifelse(i == 1, bins[[i]], col)
