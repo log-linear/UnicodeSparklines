@@ -3,9 +3,10 @@
   bar = intToUtf8(seq(0x2581, 0x2588), multiple = T),  # ▁ ▂ ▃ ▄ ▅ ▆ ▇ █
   tally = intToUtf8(seq(0x1d360, 0x1d364), multiple = T),  # 𝍠 𝍡 𝍢 𝍣 𝍤
   line = c(
-    paste0(intToUtf8(c(0x005f, 0x005f), multiple = T), collapse = ""),
-    intToUtf8(c(seq(0x1fb7b, 0x1fb76), 0x23ba), multiple = T)
-  ),  # __ 🭻  🭺  🭹  🭸  🭷  🭶  ⎺
+    paste0(intToUtf8(c(0x2581, 0x2581), multiple = T), collapse = ""),
+    intToUtf8(seq(0x1fb7b, 0x1fb76), multiple = T),
+    paste0(intToUtf8(c(0x2594, 0x2594), multiple = T), collapse = "")
+  ),  # ▁▁ 🭻  🭺  🭹  🭸  🭷  ▔▔
   dot = rbind(
     intToUtf8(c(0x28c0, 0x2860, 0x2850, 0x2848), multiple = T),  # ⣀  ⡠  ⡐  ⡈
     intToUtf8(c(0x2884, 0x2824, 0x2814, 0x280c), multiple = T),  # ⢄  ⠤  ⠔  ⠌

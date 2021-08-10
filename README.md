@@ -34,7 +34,8 @@ sparkline_bar(test)
 sparkline(test, chart = "line")
 ```
 
-    ## [1] "🭻__🭹🭺🭷🭸⎺🭶"
+    ## [1] "🭻▁▁🭹🭺🭷🭸▔▔🭶"
+
 
 ``` r
 sparkline_tally(test)
