@@ -1,24 +1,24 @@
 # Sparkline character sets
 .chars <- list(
-  bar = intToUtf8(seq(0x2581, 0x2588), multiple = T),  # ▁ ▂ ▃ ▄ ▅ ▆ ▇ █
-  tally = intToUtf8(seq(0x1d360, 0x1d364), multiple = T),  # 𝍠 𝍡 𝍢 𝍣 𝍤
+  bar = intToUtf8(seq(0x2581, 0x2588), multiple = T),
+  tally = intToUtf8(seq(0x1d360, 0x1d364), multiple = T),
   line = c(
     intToUtf8(0x2581),
     intToUtf8(seq(0x1fb7b, 0x1fb76), multiple = T),
     intToUtf8(0x2594)
-  ),  # ▁ 🭻  🭺  🭹  🭸  🭷  ▔
+  ),
   dot = rbind(
-    intToUtf8(c(0x28c0, 0x2860, 0x2850, 0x2848), multiple = T),  # ⣀  ⡠  ⡐  ⡈
-    intToUtf8(c(0x2884, 0x2824, 0x2814, 0x280c), multiple = T),  # ⢄  ⠤  ⠔  ⠌
-    intToUtf8(c(0x2882, 0x2822, 0x2812, 0x280a), multiple = T),  # ⢂  ⠢  ⠒  ⠊
-    intToUtf8(c(0x2881, 0x2821, 0x2811, 0x2809), multiple = T)   # ⢁  ⠡  ⠑  ⠉
+    intToUtf8(c(0x28c0, 0x2860, 0x2850, 0x2848), multiple = T),
+    intToUtf8(c(0x2884, 0x2824, 0x2814, 0x280c), multiple = T),
+    intToUtf8(c(0x2882, 0x2822, 0x2812, 0x280a), multiple = T),
+    intToUtf8(c(0x2881, 0x2821, 0x2811, 0x2809), multiple = T)
   ),
   shade = intToUtf8(c(0x2581, 0x2591, 0x2592, 0x2593, 0x2588), multiple = T),
   area = rbind(
-    intToUtf8(c(0x0020, 0x1fb48, 0x1fb4a, 0x1fb4b), multiple = T),   # ︭ 🭈 🭊 🭋
-    intToUtf8(c(0x1fb3d, 0x1fb2d, 0x1fb46, 0x1fb44), multiple = T),  # 🬽 🬭 🭆 🭄
-    intToUtf8(c(0x1fb3f, 0x1fb51, 0x1fb39, 0x1fb42), multiple = T),  # 🬿 🭑 🬹 🭂
-    intToUtf8(c(0x1fb40, 0x1fb4f, 0x1fb4d, 0x2588), multiple = T)   # 🭀 🭏 🭍 █
+    intToUtf8(c(0x0020, 0x1fb48, 0x1fb4a, 0x1fb4b), multiple = T),
+    intToUtf8(c(0x1fb3d, 0x1fb2d, 0x1fb46, 0x1fb44), multiple = T),
+    intToUtf8(c(0x1fb3f, 0x1fb51, 0x1fb39, 0x1fb42), multiple = T),
+    intToUtf8(c(0x1fb40, 0x1fb4f, 0x1fb4d, 0x2588), multiple = T)
 
   )
 )

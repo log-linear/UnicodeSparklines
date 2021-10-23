@@ -13,7 +13,7 @@ UTF-8 output.
 
 # Installation
 
-```{r, message = F}
+```{r, message = F, warning = F, error = F}
 remotes::install_github("log-linear/UnicodeSparklines")
 ```
 
